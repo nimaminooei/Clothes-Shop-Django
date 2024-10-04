@@ -9,8 +9,10 @@ python-decouple
 # third party modules
 django-filter
 django-cors-headers
-# drf_yasg
-# djoser
+drf_yasg
+djoser
+djangorestframework_simplejwt
+social-auth-app-django
 
 # deployment module
 # gunicorn

@@ -2,11 +2,11 @@ from django.contrib import admin
 
 # from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-from .models import post ,Comment,category,tag
+from .models import Post ,Comment,category,tag,Like
 
 
 class PostAdmin(admin.ModelAdmin):
-    model = post
+    model = Post
     list_display = ("author", "title","published_date",)
     # list_filter = ("status",)
     fieldsets = (("fields", {"fields": ( "content","title","category","author","tag")}),)
@@ -25,7 +25,10 @@ class categoryAdmin(admin.ModelAdmin):
     pass
 class tagAdmin(admin.ModelAdmin):
     pass
+class likeAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Like, likeAdmin)
 admin.site.register(category, categoryAdmin)
 admin.site.register(tag, tagAdmin)
-admin.site.register(post, PostAdmin)
+admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
