@@ -13,7 +13,7 @@ class ApiPostView(generics.ListCreateAPIView):
 
     def list(self, request):
         queryset = self.get_queryset()
-        serializer = PostSerializer(queryset, many=True)
+        serializer = PostSerializer(queryset, many=True,context={'request': request})
         return Response(serializer.data)
 
     def get_queryset(self, *args, **kwargs):
@@ -51,13 +51,12 @@ class ApiPostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AddLikeAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Like.objects.all()
     def post(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
+        post = get_object_or_404(Post, id=int(post_id))
         user = request.user
         like, created = Like.objects.get_or_create(post=post, author=user)
-        
         if created:
             return Response({"message": "Post liked"}, status=status.HTTP_201_CREATED)
         else:
@@ -81,7 +80,7 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         post_id = self.kwargs['post_id']
         post = get_object_or_404(Post, id=post_id)
-        return Comment.objects.filter(post=post, parent=None)  # فقط کامنت‌های اصلی
+        return Comment.objects.filter(post=post, parent=None) 
 
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']
@@ -89,13 +88,13 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
         parent_id = self.request.data.get('parent')
         parent = None
         if parent_id:
-            parent = get_object_or_404(Comment, id=parent_id)  # پیدا کردن کامنت والد اگر باشد
+            parent = get_object_or_404(Comment, id=parent_id)
         serializer.save(author=self.request.user, post=post, parent=parent)
 
 class CommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # کاربران احراز هویت نشده فقط خواندن
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  
 
     def perform_update(self, serializer):
         serializer.save(author=self.request.user)

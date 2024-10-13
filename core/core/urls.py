@@ -23,7 +23,7 @@ app_name = "core"
 schema_view = get_schema_view(
     openapi.Info(
         title="Clothes Shop API Docs",
-        default_version="v1",
+        default_version="Beta",
         description="Test description",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),

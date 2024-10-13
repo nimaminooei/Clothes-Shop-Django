@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'accounts',
     'blog',
+    'production',
 
 ]
 
@@ -95,7 +96,13 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        # 'rest_framework.authentication.JWTAuthentication',
+    ],
 }
 
 
@@ -129,8 +136,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
 
+AUTH_USER_MODEL = "accounts.CustomUser"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 

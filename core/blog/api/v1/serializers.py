@@ -11,24 +11,29 @@ class PostSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
     humanized_published_date = serializers.SerializerMethodField()
-
+    user_like = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ['id', 'author', 'category', 'tag', 'title', 'content', 'status', 'like_count','comment_count','humanized_published_date']
+        fields = ['id', 'author', 'category', 'tag', 'title', 'content', 'status', 'like_count','comment_count','humanized_published_date','user_like']
         read_only_fields = ["author"]
     
     def get_humanized_published_date(self, obj):
-        # محاسبه زمان گذشته از تاریخ انتشار
         return timesince(obj.updated_date) + " ago"
     
     def to_representation(self, obj):
-        # remove user id when showing data
         ret = super(PostSerializer, self).to_representation(obj)
         ret.pop("author", None)
         return ret
     
     def get_like_count(self, obj):
         return obj.likes.count()
+    
+    def get_user_like(self, obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        return obj.likes.filter(author=user).exists()
     
     def get_comment_count(self, obj):
         return obj.comments.count()
@@ -39,11 +44,11 @@ class ReplySerializer(serializers.ModelSerializer):
         fields = ['id', 'author', 'text', 'created_at']
 
 class CommentSerializer(serializers.ModelSerializer):
-    replies = ReplySerializer(many=True, read_only=True)  # اضافه کردن پاسخ‌ها
+    replies = ReplySerializer(many=True, read_only=True)  
 
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'author', 'text', 'created_at', 'replies', 'parent']  # اضافه کردن فیلد parent
+        fields = ['id', 'post', 'author', 'text', 'created_at', 'replies', 'parent']  
         read_only_fields = ['id', 'author', 'created_at', 'replies']
 
     def create(self, validated_data):
