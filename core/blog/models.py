@@ -31,7 +31,7 @@ class Like(models.Model):
     author = models.ForeignKey(user, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('post', 'author')  # جلوگیری از لایک تکراری برای یک پست توسط یک کاربر
+        unique_together = ('post', 'author') 
 
     def __str__(self):
         return str(self.author)
