@@ -79,7 +79,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         order = self.get_object()
-        order.items.clear()  # حذف سفارشات قبلی
+        order.items.clear()  
         serializer = self.get_serializer(order, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)

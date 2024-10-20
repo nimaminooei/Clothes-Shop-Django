@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 from .models import SingleOrder, Order
-from shop.models import Products  # فرض بر اینکه مدل محصولات در اپ store قرار دارد
+from shop.models import Products 
 
 class SingleOrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,7 +10,7 @@ class SingleOrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'product', 'count']
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = SingleOrderSerializer(many=True)  # سفارش‌های تکی داخل سفارش کلی
+    items = SingleOrderSerializer(many=True)  
     
     class Meta:
         model = Order
