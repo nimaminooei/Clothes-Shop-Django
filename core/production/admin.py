@@ -10,7 +10,7 @@ from .models import SingleOrder, Order
 class SingleOrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product', 'count', 'order')
     list_filter = ('user', 'product')
-    search_fields = ['user__username', 'product__name']
+    search_fields = ['user__username', 'product__name','order__serial']
 
 
 @admin.register(Order)
