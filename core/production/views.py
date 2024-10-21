@@ -5,6 +5,14 @@ from .models import SingleOrder, Order
 from .serializers import SingleOrderSerializer, OrderSerializer
 from shop.models import Products
 
+class GetOrder(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.filter(user=request.user,status=False)
+        activeorder = Order.objects.get(user=request.user,status=True)
+        return Response({'orderhistory':OrderSerializer(orders,many=True).data,"activeorder":OrderSerializer(activeorder).data},status=status.HTTP_200_OK)
+
+
 class CartManagerAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request, *args, **kwargs):
@@ -58,6 +66,8 @@ class CartManagerAPIView(APIView):
                 return Response({"message": "Product removed from order"}, status=status.HTTP_200_OK)
         except SingleOrder.DoesNotExist:
             return Response({"error": "Product not found in the order"}, status=status.HTTP_404_NOT_FOUND)
+
+
 class SingleOrderViewSet(viewsets.ModelViewSet):
     queryset = SingleOrder.objects.all()
     serializer_class = SingleOrderSerializer
@@ -84,3 +94,5 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+

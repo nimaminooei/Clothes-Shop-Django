@@ -3,8 +3,10 @@
 from rest_framework import serializers
 from .models import SingleOrder, Order
 from shop.models import Products 
+from shop.serializers import ProductsSerializer
 
 class SingleOrderSerializer(serializers.ModelSerializer):
+    product = ProductsSerializer()
     class Meta:
         model = SingleOrder
         fields = ['id', 'user', 'product', 'count']
@@ -22,3 +24,4 @@ class OrderSerializer(serializers.ModelSerializer):
         for item_data in items_data:
             SingleOrder.objects.create(order=order, **item_data)
         return order
+

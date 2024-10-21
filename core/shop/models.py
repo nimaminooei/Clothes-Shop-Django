@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth import get_user_model
+from accounts.models import Profile
+User = get_user_model()
 # Create your models here.
 
 
@@ -18,3 +20,22 @@ class Products(models.Model):
     stock = models.IntegerField()
     def __str__(self):
         return str(self.name)
+    
+class ProductRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.IntegerField() 
+    review = models.TextField(null=True, blank=True) 
+
+    class Meta:
+        unique_together = ('user', 'product') 
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}: {self.rating}"
+    
+class Whishlist(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('user', 'product')
+    def __str__(self):
+        return f"{self.user} - {self.product}"

@@ -1,13 +1,20 @@
 from rest_framework import serializers
 from .models import Profile
 from django.conf import settings
-
+from shop.serializers import ProductsSerializer
+from shop.models import Whishlist
 
 user = settings.AUTH_USER_MODEL
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='user.username', read_only=True)
+    wishlist = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Profile
-        fields = ['name', 'bio', 'location', 'birth_date', 'profile_picture']
+        fields = ['name', 'bio', 'location', 'birth_date', 'profile_picture', 'wishlist']
+
+    def get_wishlist(self, obj):
+        wishlist_items = Whishlist.objects.filter(user=obj.user.profile)
+        return ProductsSerializer([item.product for item in wishlist_items], many=True).data

@@ -5,7 +5,6 @@ from .models import SingleOrder, Order
 
 
 
-
 @admin.register(SingleOrder)
 class SingleOrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product', 'count', 'order')
