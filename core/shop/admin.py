@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Products,ProductRating,Whishlist
+from .models import Category, Products,ProductRating,Whishlist,Discount
 
 class ProductRatingAdmin(admin.ModelAdmin):
     list_display = ['user', 'product', 'rating', 'review']
@@ -22,7 +22,17 @@ class WhishlistAdmin(admin.ModelAdmin):
     list_display = ['user', 'product'] 
     search_fields = ['user__username', 'product__name']  
     list_filter = ['user'] 
-    ordering = ['user', 'product'] 
+    ordering = ['user', 'product']
+
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ('name', 'discount_type', 'value', 'active', 'start_date', 'end_date') 
+    list_filter = ('discount_type', 'active')  
+    search_fields = ('name',) 
+    filter_horizontal = ('products',)  
+
+
+admin.site.register(Discount, DiscountAdmin)  # ثبت مدل تخفیف در پنل مدیریت
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Products, ProductsAdmin)
 admin.site.register(ProductRating, ProductRatingAdmin)

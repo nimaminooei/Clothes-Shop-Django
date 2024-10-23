@@ -6,8 +6,16 @@ from rest_framework import viewsets,status,permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import ProductRatingSerializer
+from .serializers import ProductRatingSerializer,DiscountManageSerializer
+from .models import Discount
 
+class DiscountViewSet(viewsets.ModelViewSet):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountManageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()  
