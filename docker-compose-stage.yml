@@ -1,12 +1,5 @@
 version: "3.9"
 services:
-  redis:
-    container_name: redis
-    image: redis
-    restart: always
-    ports:
-    - "6379:6379"
-    command: redis-server --save 60 1 --loglevel warning
   backend:
     build: .
     container_name: backend
@@ -21,16 +14,6 @@ services:
       - SECRET_KEY=test
       - DEBUG=False
       - ALLOWED_HOSTS=*
-    depends_on :
-      - redis
-  worker:
-    build: .
-    command: celery -A core worker -l INFO
-    volumes:
-      - ./core:/app
-    depends_on:
-      - redis
-      - backend
 
   nginx:
     image: nginx:latest
@@ -43,7 +26,6 @@ services:
       - static_volume:/home/app/static
       - media_volume:/home/app/media
     depends_on:
-      - redis
       - backend
 volumes:
   static_volume:

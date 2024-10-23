@@ -15,7 +15,7 @@ djangorestframework_simplejwt
 social-auth-app-django
 
 # deployment module
-# gunicorn
+gunicorn
 
 
 # refactoring and tests
