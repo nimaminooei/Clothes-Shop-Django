@@ -21,7 +21,7 @@ class DiscountSerializer(serializers.ModelSerializer):
 
     def get_date(self, obj):
         if obj.end_date:
-            return obj.end_date.strftime('%B %d, %Y')  # فرمت: "October 23, 2024"
+            return obj.end_date.strftime('%B %d, %Y') 
         return None
 class ProductsSerializer(serializers.ModelSerializer):
     user_rate = serializers.SerializerMethodField() 
