@@ -6,7 +6,7 @@ from shop.models import Products
 from shop.serializers import ProductsSerializer
 
 class SingleOrderSerializer(serializers.ModelSerializer):
-    product = ProductsSerializer()
+    product = ProductsSerializer(source="product.id")
     class Meta:
         model = SingleOrder
         fields = ['id', 'user', 'product', 'count']
