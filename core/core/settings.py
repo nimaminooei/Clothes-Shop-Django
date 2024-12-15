@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mek6)(g6(y7^g@-fx*1&a9=bmh=6hr4dt$p!3&mh7w85(-6(*x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['5.34.205.85']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'blog',
     'production',
     'shop',
+    'peyment',
 
 ]
 
@@ -157,3 +158,8 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# peyment
+ZARINPAL_MERCHANT_ID = "AAAkkkkkkkkkkkkkkkAAAkkkkkkkkkkkkkkk"
+ZARINPAL_CALLBACK_URL = "http://google.com"

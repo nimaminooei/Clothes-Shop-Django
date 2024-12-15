@@ -16,7 +16,7 @@ class SingleOrder(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.BooleanField(default=1)
+    status = models.BooleanField(default=True)
     serial = models.IntegerField(unique=True)
     def total_price(self):
         return sum([item.product.price * item.count for item in self.items.all()])
