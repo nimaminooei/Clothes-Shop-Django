@@ -162,4 +162,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # peyment
 ZARINPAL_MERCHANT_ID = "AAAkkkkkkkkkkkkkkkAAAkkkkkkkkkkkkkkk"
-ZARINPAL_CALLBACK_URL = "http://google.com"
+ZARINPAL_CALLBACK_URL = "http://127.0.0.1:8000/peyment/verify/"

@@ -5,10 +5,11 @@ from .serializers import CategorySerializer, ProductsSerializer
 from rest_framework import viewsets,status,permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework import filters
+import django_filters
 from .serializers import ProductRatingSerializer,DiscountManageSerializer
 from .models import Discount
-
+from .filters import ProductsFilter
 class DiscountViewSet(viewsets.ModelViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountManageSerializer
@@ -23,8 +24,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductsViewSet(viewsets.ModelViewSet):
-    queryset = Products.objects.all() 
+    queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+    filter_backends = (filters.OrderingFilter, django_filters.rest_framework.DjangoFilterBackend)
+    filterset_class = ProductsFilter
+    ordering_fields = ['name', 'price']
+    ordering = ['name']
 
 class ProductRatingView(APIView):
     permission_classes = [permissions.IsAuthenticated] 

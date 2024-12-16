@@ -20,64 +20,78 @@ class PaymentRequestView(APIView):
 
 
         if hasattr(order, 'payment') and order.payment.status == 'INIT':
-            return Response({"error": "پرداخت در حال انتظار است"}, status=status.HTTP_400_BAD_REQUEST)
+            # return Response({"error": "پرداخت در حال انتظار است"}, 
+            # status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                    "payment_url": f"https://sandbox.zarinpal.com/pg/StartPay/{order.payment.authority}",
+                }, status=status.HTTP_200_OK)
 
 
         payment = Payment.objects.create(order=order)
 
 
-        zarinpal_request_url = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json"
+        zarinpal_request_url = "https://sandbox.zarinpal.com/pg/v4/payment/request.json"
+        # data = {
+        #     "MerchantID": settings.ZARINPAL_MERCHANT_ID,
+        #     "Amount": order.total_price(), 
+        #     "Description": f"پرداخت سفارش {order.serial}",
+        #     "CallbackURL": settings.ZARINPAL_CALLBACK_URL,
+        # }
         data = {
-            "MerchantID": settings.ZARINPAL_MERCHANT_ID,
-            "Amount": order.total_price(), 
-            "Description": f"پرداخت سفارش {order.serial}",
-            "CallbackURL": settings.ZARINPAL_CALLBACK_URL,
+            "merchant_id": settings.ZARINPAL_MERCHANT_ID,  
+            "amount": order.total_price(),  
+            "description": f"پرداخت سفارش {order.serial}",
+            "callback_url": settings.ZARINPAL_CALLBACK_URL,
+            "metadata": {
+                "mobile": "09123456789",  
+                "order_id": "123456"
+            }
         }
 
         try:
             response = requests.post(zarinpal_request_url, json=data)
             response_data = response.json()
-            if response_data['Status'] == 100:
+            print(response_data)
+            if response_data['data']['code'] == 100:
 
-                payment.authority = response_data['Authority']
+                payment.authority = response_data['data']['authority']
                 payment.save()
                 return Response({
-                    "payment_url": f"https://sandbox.zarinpal.com/pg/StartPay/{response_data['Authority']}",
+                    "payment_url": f"https://sandbox.zarinpal.com/pg/StartPay/{response_data['data']['authority']}",
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({"error": "خطا در ایجاد درخواست پرداخت"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 class PaymentVerifyView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         authority = request.query_params.get('Authority')
-        status = request.query_params.get('Status')
+        statuss = request.query_params.get('Status')
 
         try:
 
             payment = Payment.objects.get(authority=authority)
             order = payment.order
 
-            if status != "OK":
+            if statuss != "OK":
                 payment.status = "FAIL"
                 payment.save()
                 return Response({"message": "پرداخت ناموفق بود"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-            zarinpal_verify_url = "https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json"
+            zarinpal_verify_url = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json"
             data = {
-                "MerchantID": settings.ZARINPAL_MERCHANT_ID,
-                "Amount": order.total_price(),
-                "Authority": authority,
+                "merchant_id": settings.ZARINPAL_MERCHANT_ID,
+                "amount": int(order.total_price()),
+                "authority": authority,
             }
-
             response = requests.post(zarinpal_verify_url, json=data)
             response_data = response.json()
-
-            if response_data['Status'] == 100:
+            if response_data['data']['code'] == 100:
                 payment.status = "SUCCESS"
-                payment.ref_id = response_data['RefID']
-                payment.save()
+                payment.ref_id = response_data["data"]['ref_id']
+                payment.save()  
                 order.status = 0 
                 order.save()
                 return Response({

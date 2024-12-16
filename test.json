@@ -1,0 +1,10 @@
+{'data':
+ {
+  'authority': 'S0000000000000000000000000000000q7mn',
+  'fee': 1000,
+  'fee_type': 'Merchant',
+  'code': 100,
+  'message': 'Success'
+},
+  'errors': []
+}
