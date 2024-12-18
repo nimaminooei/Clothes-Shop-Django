@@ -45,7 +45,7 @@ class CartManagerAPIView(APIView):
             single_order.count += 1
         single_order.save()
         return Response(
-            {"message": "Product added to order", "single_order": SingleOrderSerializer(single_order).data},
+            {"message": "Product added to order", "single_order": "SingleOrderSerializer(single_order).data"},
             status=status.HTTP_200_OK
         )
     def remove_product_from_order(self, order, product, user):
@@ -58,7 +58,7 @@ class CartManagerAPIView(APIView):
                 single_order.count -= 1
                 single_order.save()
                 return Response(
-                    {"message": "Product count decreased", "single_order": SingleOrderSerializer(single_order).data},
+                    {"message": "Product count decreased", "single_order": "SingleOrderSerializer(single_order).data"},
                     status=status.HTTP_200_OK
                 )
             else:
