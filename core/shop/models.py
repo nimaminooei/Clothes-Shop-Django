@@ -11,6 +11,7 @@ class Category(models.Model):
     image = models.ImageField(null=True,blank=True)
     def __str__(self):
         return str(self.name)
+        
 class Products(models.Model):
     name = models.CharField(max_length=255,null=False, blank=False , unique=False)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL , null=True) 
