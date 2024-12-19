@@ -1,6 +1,7 @@
 from rest_framework import viewsets,status,permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 from .models import SingleOrder, Order
 from .serializers import SingleOrderSerializer, OrderSerializer
 from shop.models import Products
@@ -22,10 +23,11 @@ class CartManagerAPIView(APIView):
         if not product_id:
             return Response({"error": "Product ID is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            product = Products.objects.get(id=product_id)
-        except Products.DoesNotExist:
-            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+        # try:
+        #     product = Products.objects.get(id=product_id)
+        # except Products.DoesNotExist:
+        #     return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+        product = get_object_or_404(Products, id=product_id)
         
         if task == 'add':
             return self.add_product_to_order(Order, product, user)
