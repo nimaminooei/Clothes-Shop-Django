@@ -44,7 +44,7 @@ class PaymentRequestView(APIView):
             "callback_url": settings.ZARINPAL_CALLBACK_URL,
             "metadata": {
                 "mobile": "09123456789",  
-                "order_id": order_id
+                "order_id": "order_id",
             }
         }
 
