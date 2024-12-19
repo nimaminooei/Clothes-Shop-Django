@@ -20,11 +20,11 @@ class PaymentRequestView(APIView):
 
 
         if hasattr(order, 'payment') and order.payment.status == 'INIT':
-            # return Response({"error": "پرداخت در حال انتظار است"}, 
-            # status=status.HTTP_400_BAD_REQUEST)
-            return Response({
-                    "payment_url": f"https://sandbox.zarinpal.com/pg/StartPay/{order.payment.authority}",
-                }, status=status.HTTP_200_OK)
+            return Response({"error": "پرداخت در حال انتظار است"}, 
+            status=status.HTTP_400_BAD_REQUEST)
+            # return Response({
+            #         "payment_url": f"https://sandbox.zarinpal.com/pg/StartPay/{order.payment.authority}",
+            #     }, status=status.HTTP_200_OK)
 
 
         payment = Payment.objects.create(order=order)
