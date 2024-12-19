@@ -31,9 +31,10 @@ class CartManagerAPIView(APIView):
         
         if task == 'add':
             return self.add_product_to_order(Order, product, user)
-
         elif task == 'remove':
             return self.remove_product_from_order(Order, product, user)
+        else:
+            return Response({"error": "Invalid task"}, status=status.HTTP_400_BAD_REQUEST)
         
     
 
