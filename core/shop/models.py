@@ -8,10 +8,17 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(null=True,blank=True)
+    parent = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
+    )  
+    image = models.ImageField(null=True, blank=True)
+
     def __str__(self):
-        return str(self.name)
         
+        return f"{self.parent.name} -> {self.name}" if self.parent else self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
 class Products(models.Model):
     name = models.CharField(max_length=255,null=False, blank=False , unique=False)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL , null=True) 
