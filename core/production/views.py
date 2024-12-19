@@ -40,7 +40,7 @@ class CartManagerAPIView(APIView):
         if activeorder.count() > 0:
             single_order, created = SingleOrder.objects.get_or_create(order=activeorder.first(),product=product, user=user)
         else:
-            single_order, created = SingleOrder.objects.create( product=product, user=user)
+            single_order = SingleOrder.objects.create( product=product, user=user)
         if not created:
             single_order.count += 1
         single_order.save()
