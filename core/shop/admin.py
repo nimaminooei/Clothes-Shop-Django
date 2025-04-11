@@ -31,8 +31,7 @@ class DiscountAdmin(admin.ModelAdmin):
     filter_horizontal = ('products',)  
 
 
-admin.site.register(Discount, DiscountAdmin)  # ثبت مدل تخفیف در پنل مدیریت
-
+admin.site.register(Discount, DiscountAdmin) 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Products, ProductsAdmin)
 admin.site.register(ProductRating, ProductRatingAdmin)
