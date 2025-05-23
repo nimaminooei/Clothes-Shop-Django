@@ -29,7 +29,10 @@ ALLOWED_HOSTS = ["nimzz.ir" ,
                  "www.nimzz.ir"]
 
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "http://nimzz.ir",
+    "http://www.nimzz.ir",
+]
 
 # Application definition
 
