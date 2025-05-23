@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-mek6)(g6(y7^g@-fx*1&a9=bmh=6hr4dt$p!3&mh7w85(-6(*x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["nimzz.ir" ,
+                 "www.nimzz.ir"]
+
+
 
 
 # Application definition
