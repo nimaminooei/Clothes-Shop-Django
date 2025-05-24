@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["nimzz.ir" ,
 
 CSRF_TRUSTED_ORIGINS = [
     "http://nimzz.ir",
-    "https://nimzz.ir",
+    "https  ://nimzz.ir",
     "https://www.nimzz.ir",
     "http://www.nimzz.ir",
 ]
