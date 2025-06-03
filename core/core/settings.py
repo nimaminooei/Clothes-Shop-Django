@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'djoser',
     'drf_yasg',
     'accounts',
