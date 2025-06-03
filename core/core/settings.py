@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["nimzz.ir" ,
                  "www.nimzz.ir"]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOWED_ORIGINS = [
     "https://nimzz.ir",      
     "https://www.nimzz.ir",     
@@ -109,6 +111,7 @@ DATABASES = {
     }
 }
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
