@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["nimzz.ir" ,
 
 CSRF_TRUSTED_ORIGINS = [
     "http://nimzz.ir",
-    "https  ://nimzz.ir",
+    "https://nimzz.ir",
     "https://www.nimzz.ir",
     "http://www.nimzz.ir",
 ]
@@ -170,4 +170,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # peyment
 ZARINPAL_MERCHANT_ID = "AAAkkkkkkkkkkkkkkkAAAkkkkkkkkkkkkkak"
-ZARINPAL_CALLBACK_URL = "http://5.34.204.66/peyment/verify/"
+ZARINPAL_CALLBACK_URL = "http://nimzz.ir/peyment/verify/"
