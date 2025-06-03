@@ -29,9 +29,7 @@ ALLOWED_HOSTS = ["nimzz.ir" ,
                  "www.nimzz.ir"]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://nimzz.ir", 
-    "https://nimzz.ir", 
-    "http://www.nimzz.ir",     
+    "https://nimzz.ir",      
     "https://www.nimzz.ir",     
     "http://localhost:80",                           
     "http://127.0.0.1:5500",                
@@ -70,6 +68,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
