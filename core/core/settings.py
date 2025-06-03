@@ -28,6 +28,14 @@ DEBUG = True
 ALLOWED_HOSTS = ["nimzz.ir" ,
                  "www.nimzz.ir"]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://nimzz.ir", 
+    "http://www.nimzz.ir",     
+    "http://localhost:80",                           
+    "http://127.0.0.1:5500",                
+    "http://127.0.0.1",                     
+]
+
 
 CSRF_TRUSTED_ORIGINS = [
     "http://nimzz.ir",
